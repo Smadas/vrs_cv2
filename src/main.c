@@ -48,20 +48,44 @@ SOFTWARE.
 */
 int main(void)
 {
+	//u1
+	//LED3 init
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
+
 	GPIOA->MODER |= (uint32_t)(0b01) << (5*2);
 	GPIOA->OTYPER &= ~(uint16_t)(0b1) << 5;
 	GPIOA->PUPDR |= (uint32_t)(0b01) << (5*2);
 	GPIOA->OSPEEDR |= (uint32_t)(0b11) << (5*2);
 
+	//LED3 ODR toggle
 	GPIOA->ODR |= (uint16_t)(0b1) << 5;
 	GPIOA->ODR &= ~(uint16_t)(0b1) << 5;
 
+	//LED3 set/reset toggle
 	GPIOA->BSRRL |= (uint16_t)(0b1) << 5;
-	GPIOA->BSRRL |= ~(uint16_t)(0b1)<< 5;
+	GPIOA->BSRRL &= ~(uint16_t)(0b1)<< 5;
 	GPIOA->BSRRH |= (uint16_t)(0b1) << 5;
+	GPIOA->BSRRH &= ~(uint16_t)(0b1) << 5;
 
-  int i = 0;
+
+	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
+	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
+	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
+	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
+
+	//u2
+	//But1 init
+	GPIOC->MODER &= ~(uint32_t)(0b11) << 26;
+	GPIOC->OTYPER &= ~(uint16_t)(0b1) << 13;
+	GPIOC->PUPDR &= ~(uint32_t)(0b11) << 26;
+
+	int Button = 0;
+	uint16_t ButtonIDR = 0;
+	ButtonIDR = GPIOC->IDR;
+	ButtonIDR &= (uint16_t)(0b1) << 13;
+	Button = !(ButtonIDR >> 13);
+
 
   /**
   *  IMPORTANT NOTE!
