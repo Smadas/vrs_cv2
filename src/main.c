@@ -146,6 +146,7 @@ int main(void)
 	  ButtonIDR &= (uint16_t)(0b1) << 13;
 	  Button = (int)!(ButtonIDR >> 13);
 	  */
+	  /*
 	  Button = !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
 	  if (Button == 0)
 	  {
@@ -155,34 +156,36 @@ int main(void)
 	  {
 		  GPIO_WriteBit(GPIOA, GPIO_Pin_5, Bit_SET); //switch on LED
 	  }
+	  */
 	  //LED prepinanie tlacidlom
 	  	  /*ButtonIDR = GPIOC->IDR;
 	  	  ButtonIDR &= (uint16_t)(0b1) << 13;
 	  	  Button = !(ButtonIDR >> 13);*/
-	  /*	  Filter++;
-	  	  if(ButtonPressed == 0)
-	  	  {
-	  		  if(Button == 0)
-	  		  {
-	  			  Filter = 0;
-	  		  }
-	  		  if(Filter > 100)
-	  		  {
-	  			  ButtonPressed = 1;
-	  			  GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
-	  		  }
-	  	  }
-	  	  else if(ButtonPressed == 1)
-	  	  {
-	  		  if(Button == 1)
-	  		  {
-	  			  Filter = 0;
-	  		  }
-	  		  if(Filter > 100)
-	  		  {
-	  			  ButtonPressed = 0;
-	  		  }
-	  	  }*/
+	  Button = !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
+	  Filter++;
+	  if(ButtonPressed == 0)
+	  {
+		  if(Button == 0)
+		  {
+			  Filter = 0;
+		  }
+		  if(Filter > 100)
+		  {
+			  ButtonPressed = 1;
+			  GPIO_ToggleBits(GPIOA, GPIO_Pin_5); //toggle LED3
+		  }
+	  }
+	  else if(ButtonPressed == 1)
+	  {
+		  if(Button == 1)
+		  {
+			  Filter = 0;
+		  }
+		  if(Filter > 100)
+		  {
+			  ButtonPressed = 0;
+		  }
+	  }
 
   }
   return 0;
