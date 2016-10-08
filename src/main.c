@@ -100,15 +100,26 @@ int main(void)
 
 	//u2
 	//But1 init
-	GPIOC->MODER &= ~(uint32_t)(0b11) << 26;
+	//vytvorenie struktury GPIO
+	//GPIO_InitTypeDef gpioInitStruc;
+	gpioInitStruc.GPIO_Mode = GPIO_Mode_IN;
+	gpioInitStruc.GPIO_OType = GPIO_OType_PP;
+	gpioInitStruc.GPIO_Pin = GPIO_Pin_13;
+	gpioInitStruc.GPIO_PuPd = GPIO_PuPd_NOPULL;
+	gpioInitStruc.GPIO_Speed = GPIO_Speed_40MHz;
+	//zapisanie inicializacnej struktury
+	GPIO_Init(GPIOC, &gpioInitStruc);
+	/*GPIOC->MODER &= ~(uint32_t)(0b11) << 26;
 	GPIOC->OTYPER &= ~(uint16_t)(0b1) << 13;
-	GPIOC->PUPDR &= ~(uint32_t)(0b11) << 26;
+	GPIOC->PUPDR &= ~(uint32_t)(0b11) << 26;*/
 
-	int Button = 0;
+	/*int Button = 0;
 	uint16_t ButtonIDR = 0;
 	ButtonIDR = GPIOC->IDR;
 	ButtonIDR &= (uint16_t)(0b1) << 13;
-	Button = !(ButtonIDR >> 13);
+	Button = !(ButtonIDR >> 13);*/
+	uint8_t Button = !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
+	Button = !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
 
 	//u3
 	long pocitadlo = 0;
@@ -142,9 +153,9 @@ int main(void)
 		  GPIOA->ODR |= (uint16_t)(0b1) << 5; //switch on LED
 	  }*/
 	  //LED prepinanie tlacidlom
-	  	  ButtonIDR = GPIOC->IDR;
+	  	  /*ButtonIDR = GPIOC->IDR;
 	  	  ButtonIDR &= (uint16_t)(0b1) << 13;
-	  	  Button = !(ButtonIDR >> 13);
+	  	  Button = !(ButtonIDR >> 13);*/
 	  	  Filter++;
 	  	  if(ButtonPressed == 0)
 	  	  {
