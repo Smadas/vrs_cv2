@@ -133,25 +133,28 @@ int main(void)
   while (1)
   {
 	  //blikac
-	  pocitadlo++;
+	  /*pocitadlo++;
 	  if (pocitadlo > 1000000)
 	  {
 		  GPIO_ToggleBits(GPIOA, GPIO_Pin_5); //toggle LED3
 		  pocitadlo = 0;
-	  }
+	  }*/
 
-	  /*//LED sledovac vstupu
+	  //LED sledovac vstupu
+	  /*
 	  ButtonIDR = GPIOC->IDR;
 	  ButtonIDR &= (uint16_t)(0b1) << 13;
 	  Button = (int)!(ButtonIDR >> 13);
+	  */
+	  Button = !GPIO_ReadInputDataBit(GPIOC, GPIO_Pin_13);
 	  if (Button == 0)
 	  {
-		  GPIOA->ODR &= ~(uint16_t)(0b1) << 5; //switch off LED
+		  GPIO_WriteBit(GPIOA, GPIO_Pin_5, Bit_RESET); //switch off LED
 	  }
 	  else
 	  {
-		  GPIOA->ODR |= (uint16_t)(0b1) << 5; //switch on LED
-	  }*/
+		  GPIO_WriteBit(GPIOA, GPIO_Pin_5, Bit_SET); //switch on LED
+	  }
 	  //LED prepinanie tlacidlom
 	  	  /*ButtonIDR = GPIOC->IDR;
 	  	  ButtonIDR &= (uint16_t)(0b1) << 13;
