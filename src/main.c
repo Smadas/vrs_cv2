@@ -53,17 +53,37 @@ int main(void)
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
 
-	GPIOA->MODER |= (uint32_t)(0b01) << (5*2);
+
+	/*GPIOA->MODER |= (uint32_t)(0b01) << (5*2);
 	GPIOA->OTYPER &= ~(uint16_t)(0b1) << 5;
 	GPIOA->PUPDR |= (uint32_t)(0b01) << (5*2);
-	GPIOA->OSPEEDR |= (uint32_t)(0b11) << (5*2);
+	GPIOA->OSPEEDR |= (uint32_t)(0b11) << (5*2);*/
+	//vytvorenie struktury GPIO
+	GPIO_InitTypeDef gpioInitStruc;
+	gpioInitStruc.GPIO_Mode = GPIO_Mode_OUT;
+	gpioInitStruc.GPIO_OType = GPIO_OType_PP;
+	gpioInitStruc.GPIO_Pin = GPIO_Pin_5;
+	gpioInitStruc.GPIO_Speed = GPIO_Speed_400KHz;
+	//zapisanie inicializacnej struktury
+	GPIO_Init(GPIOA, &gpioInitStruc);
+
 
 	//LED3 ODR toggle
-	GPIOA->ODR |= (uint16_t)(0b1) << 5;
-	GPIOA->ODR &= ~(uint16_t)(0b1) << 5;
+	/*GPIOA->ODR |= (uint16_t)(0b1) << 5;
+	GPIOA->ODR &= ~(uint16_t)(0b1) << 5;*/
+	GPIO_WriteBit(GPIOA, GPIO_Pin_5, Bit_SET);//zapne led
+	GPIO_WriteBit(GPIOA, GPIO_Pin_5, Bit_RESET);
+	/*uint16_t portAODR = GPIOA->ODR;
+	portAODR &= ~GPIO_Pin_5;
+	GPIO_Write(GPIOA, portAODR);
+	GPIO_Write(GPIOA, GPIO_Pin_5);
+	portAODR = GPIOA->ODR;
+	portAODR &= ~GPIO_Pin_5;
+	GPIO_Write(GPIOA, portAODR);
+	GPIO_Write(GPIOA, GPIO_Pin_5);*/
 
 	//LED3 set/reset toggle
-	GPIOA->BSRRL |= (uint16_t)(0b1) << 5;
+	/*GPIOA->BSRRL |= (uint16_t)(0b1) << 5;
 	GPIOA->BSRRL &= ~(uint16_t)(0b1)<< 5;
 	GPIOA->BSRRH |= (uint16_t)(0b1) << 5;
 	GPIOA->BSRRH &= ~(uint16_t)(0b1) << 5;
@@ -72,7 +92,11 @@ int main(void)
 	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
 	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
 	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
-	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3
+	GPIOA->ODR ^= (uint16_t)(0b1) << 5; //toggle LED3*/
+	GPIO_ToggleBits(GPIOA, GPIO_Pin_5);
+	GPIO_ToggleBits(GPIOA, GPIO_Pin_5);
+	GPIO_ToggleBits(GPIOA, GPIO_Pin_5);
+	GPIO_ToggleBits(GPIOA, GPIO_Pin_5);
 
 	//u2
 	//But1 init
